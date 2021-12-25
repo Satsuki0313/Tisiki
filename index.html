@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<head>
-<div>Teachable Machine Image Model</div>
+<body>
+    <div>Teachable Machine Image Model</div>
 <button type="button" onclick="init()">Start</button>
 <div id="webcam-container"></div>
 <div id="label-container"></div>
@@ -55,31 +55,17 @@
         window.requestAnimationFrame(loop);
     }
 
-// run the webcam image through the image model
+    // run the webcam image through the image model
     async function predict() {
-    // predict can take in an image, video or canvas html element
+        // predict can take in an image, video or canvas html element
         const prediction = await model.predict(webcam.canvas);
-        while(1){
-            if(prediction[0].probability.toFixed(2)>0.30){
-                continue;
-            }else if(prediction[1].probability.toFixed(2)>0.90){
-                window.location.href="./one.html";
-            }else if(prediction[2].probability.toFixed(2)>0.90){
-                window.location.href="./two.html";
-            }else if(prediction[3].probability.toFixed(2)>0.90){
-                window.location.href="./three.html";
-            }else if(prediction[4].probability.toFixed(2)>0.90){
-                window.location.href="./four.html";
-            }else if(prediction[5].probability.toFixed(2)>0.90){
-                window.location.href="./five.html";
-            }
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction =
+                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            labelContainer.childNodes[i].innerHTML = classPrediction;
         }
-        
     }
 </script>
 
 </body>
 </html>
-    
-
-
